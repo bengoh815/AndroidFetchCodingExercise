@@ -43,9 +43,8 @@ class MainActivity : AppCompatActivity() {
                     // Handle successful response
                     Log.i(LOGTAG, "Response successful")
                     listData = response.body() ?: emptyList()
-                    listData = filterAndSortData(listData)
 
-                    adapter.updateData(listData)
+                    adapter.updateData(filterAndSortData(listData))
                 } else {
                     // Handle error response
                     Log.i(LOGTAG, "Response failure")
@@ -70,6 +69,8 @@ class MainActivity : AppCompatActivity() {
     private fun sortDefault(dataItems: List<DataItem>): List<DataItem> {
         // Group items by listId and sort by listId and name
         return dataItems.groupBy { it.listId }
+            .toList()  // Convert the map entries to a list
+            .sortedBy { it.first }  // Sort the list of map entries by listId
             .flatMap { (_, items) -> items.sortedWith(compareBy({ it.listId }, { it.name })) }
     }
 }
