@@ -1,9 +1,10 @@
 package com.example.android_fetchcodingexercise
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,9 +13,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val LOGTAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
+    private lateinit var listData: List<DataItem>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        listData = emptyList()
 
         // Retrofit setup
         val retrofit = Retrofit.Builder()
@@ -32,8 +36,11 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     // Handle successful response
                     Log.i(LOGTAG, "Response successful")
-                    val dataItems: List<DataItem>? = response.body()
-                    displayData(filterAndSortData(dataItems))
+                    listData = response.body() ?: emptyList()
+                    Log.i(LOGTAG, "${listData.size}")
+                    listData = filterAndSortData(listData)
+                    Log.i(LOGTAG, "${listData.size}")
+                    //displayData(filterAndSortData(listData))
                 } else {
                     // Handle error response
                     Log.i(LOGTAG, "Response failure")
@@ -45,6 +52,12 @@ class MainActivity : AppCompatActivity() {
                 Log.i(LOGTAG, "Failed to get response")
             }
         })
+
+        // Display
+        val recyclerView: RecyclerView =  findViewById(R.id.rvHiring)
+        val adapter: Hiring_RecyclerViewAdapter = Hiring_RecyclerViewAdapter(this, listData)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
     private fun filterAndSortData(dataItems: List<DataItem>?): List<DataItem> {
@@ -64,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayData(dataItems: List<DataItem>?) {
         // Update your UI with the retrieved data
-        val textView = findViewById<TextView>(R.id.tvList)
-        textView.text = dataItems?.joinToString("\n") { "${it.listId}: ${it.name}" } ?: "Null Data"
+        //val textView = findViewById<TextView>(R.id.tvList)
+        //textView.text = dataItems?.joinToString("\n") { "${it.listId}: ${it.name}" } ?: "Null Data"
     }
 }
