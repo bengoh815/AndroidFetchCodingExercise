@@ -19,15 +19,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         listData = emptyList()
-        listData = listData.plus(DataItem(12398, "8", "Banana"))
 
         // Recycle View
-        Log.i(LOGTAG, "Display start")
         val recyclerView: RecyclerView =  findViewById(R.id.rvHiring)
-        val adapter: Hiring_RecyclerViewAdapter = Hiring_RecyclerViewAdapter(this, listData)
+        val adapter = HiringRecyclerViewAdapter(this, listData)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
-        Log.i(LOGTAG, "Display end")
 
         // Retrofit setup
         val retrofit = Retrofit.Builder()
@@ -46,29 +43,21 @@ class MainActivity : AppCompatActivity() {
                     // Handle successful response
                     Log.i(LOGTAG, "Response successful")
                     listData = response.body() ?: emptyList()
-                    Log.i(LOGTAG, "${listData.size}")
                     listData = filterAndSortData(listData)
-                    Log.i(LOGTAG, "${listData.size}")
-                    //displayData(filterAndSortData(listData))
 
-                    adapter.dataList = listData
-                    adapter.notifyDataSetChanged()
-
+                    adapter.updateData(listData)
                 } else {
                     // Handle error response
                     Log.i(LOGTAG, "Response failure")
                 }
             }
-
             override fun onFailure(call: Call<List<DataItem>>, t: Throwable) {
                 // Handle network failure
                 Log.i(LOGTAG, "Failed to get response")
             }
         })
 
-
     }
-
     private fun filterAndSortData(dataItems: List<DataItem>?): List<DataItem> {
         return sortDefault(filterNameNA(dataItems))
     }
@@ -82,11 +71,5 @@ class MainActivity : AppCompatActivity() {
         // Group items by listId and sort by listId and name
         return dataItems.groupBy { it.listId }
             .flatMap { (_, items) -> items.sortedWith(compareBy({ it.listId }, { it.name })) }
-    }
-
-    private fun displayData(dataItems: List<DataItem>?) {
-        // Update your UI with the retrieved data
-        //val textView = findViewById<TextView>(R.id.tvList)
-        //textView.text = dataItems?.joinToString("\n") { "${it.listId}: ${it.name}" } ?: "Null Data"
     }
 }
