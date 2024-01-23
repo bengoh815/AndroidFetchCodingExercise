@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class Hiring_RecyclerViewAdapter(private val context: Context, private val dataList: List<DataItem>)
+class Hiring_RecyclerViewAdapter(private val context: Context, var dataList: List<DataItem>)
     : RecyclerView.Adapter<Hiring_RecyclerViewAdapter.MyViewHolder>(){
 
     override fun onCreateViewHolder(

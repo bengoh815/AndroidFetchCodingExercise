@@ -19,6 +19,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         listData = emptyList()
+        listData = listData.plus(DataItem(12398, "8", "Banana"))
+
+        // Recycle View
+        Log.i(LOGTAG, "Display start")
+        val recyclerView: RecyclerView =  findViewById(R.id.rvHiring)
+        val adapter: Hiring_RecyclerViewAdapter = Hiring_RecyclerViewAdapter(this, listData)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        Log.i(LOGTAG, "Display end")
 
         // Retrofit setup
         val retrofit = Retrofit.Builder()
@@ -41,6 +50,10 @@ class MainActivity : AppCompatActivity() {
                     listData = filterAndSortData(listData)
                     Log.i(LOGTAG, "${listData.size}")
                     //displayData(filterAndSortData(listData))
+
+                    adapter.dataList = listData
+                    adapter.notifyDataSetChanged()
+
                 } else {
                     // Handle error response
                     Log.i(LOGTAG, "Response failure")
@@ -53,11 +66,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        // Display
-        val recyclerView: RecyclerView =  findViewById(R.id.rvHiring)
-        val adapter: Hiring_RecyclerViewAdapter = Hiring_RecyclerViewAdapter(this, listData)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+
     }
 
     private fun filterAndSortData(dataItems: List<DataItem>?): List<DataItem> {
