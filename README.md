@@ -4,6 +4,10 @@
 
 The Fetch Coding Exercise is a straightforward Android application designed to display a list sourced from [fetch hiring](https://fetch-hiring.s3.amazonaws.com/hiring.json).
 
+## Features ideas
+- Different kinds of sort, natural sort
+- Search bar
+
 ## How to Use
 
 Follow these steps to run the application on Android Studio:
