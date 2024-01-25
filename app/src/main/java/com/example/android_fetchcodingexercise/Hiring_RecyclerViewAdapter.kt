@@ -27,6 +27,8 @@ class HiringRecyclerViewAdapter(private val context: Context, var dataList: List
         holder.tvId.text = item.id.toString()
         holder.tvListId.text = item.listId
         holder.tvName.text = item.name
+
+        // Coloring of rows
         if (position % 2 == 0) {
             holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.tvId.context, R.color.lightOrange))
         } else {
@@ -39,6 +41,7 @@ class HiringRecyclerViewAdapter(private val context: Context, var dataList: List
     }
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        // Initializing of views
          var tvId: TextView
          var tvListId: TextView
          var tvName: TextView
@@ -51,6 +54,7 @@ class HiringRecyclerViewAdapter(private val context: Context, var dataList: List
     }
 
     fun updateData(newList: List<DataItem>) {
+        // Calculate differences and update
         val diffResult = DiffUtil.calculateDiff(MyDiffCallback(dataList, newList))
         dataList = newList
         diffResult.dispatchUpdatesTo(this)
