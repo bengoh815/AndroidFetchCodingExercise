@@ -7,13 +7,14 @@
     android:stretchColumns="1, 2, 3">
 
     <TableRow
+        android:id="@+id/trRow"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tvId"
             android:layout_column="1"
-            android:padding="5dp"
+            android:padding="10dp"
             android:textAlignment="center"
             android:textSize="16sp"
             tools:text="id" />
@@ -21,7 +22,7 @@
         <TextView
             android:id="@+id/tvListId"
             android:layout_column="1"
-            android:padding="5dp"
+            android:padding="10dp"
             android:textSize="16sp"
             android:textAlignment="center"
             tools:text="list id" />
@@ -29,7 +30,7 @@
         <TextView
             android:id="@+id/tvName"
             android:layout_column="1"
-            android:padding="5dp"
+            android:padding="10dp"
             android:textAlignment="center"
             android:textSize="16sp"
             tools:text="name" />

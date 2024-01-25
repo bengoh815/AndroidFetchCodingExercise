@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
@@ -26,6 +27,11 @@ class HiringRecyclerViewAdapter(private val context: Context, var dataList: List
         holder.tvId.text = item.id.toString()
         holder.tvListId.text = item.listId
         holder.tvName.text = item.name
+        if (position % 2 == 0) {
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.tvId.context, R.color.lightOrange))
+        } else {
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(holder.tvId.context, R.color.white))
+        }
     }
 
     override fun getItemCount(): Int {
